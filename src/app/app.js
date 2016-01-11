@@ -4,7 +4,7 @@
 
 var config = {
     app: {
-        name: 'Basic idle Game'
+        name: 'My new App'
     },
     storage: {
         type: 'localStorage' //sessionStorage
@@ -33,9 +33,9 @@ app.config(['localStorageServiceProvider', '$routeProvider', function (localStor
             templateUrl: 'main.html',
             controller: 'mainController'
         }).
-     otherwise({
-     redirectTo: '/'
-     })
+        otherwise({
+            redirectTo: '/'
+        })
     ;
 }]);
 

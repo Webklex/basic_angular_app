@@ -21,22 +21,12 @@ var app = angular.module('app', [
     //$interpolateProvider.endSymbol(']]');
 });
 
-app.config(['localStorageServiceProvider', '$routeProvider', function (localStorageServiceProvider, $routeProvider) {
+app.config(['localStorageServiceProvider', function (localStorageServiceProvider) {
     localStorageServiceProvider
         .setPrefix(config.app.name)
         .setStorageType(config.storage.type)
         .setStorageCookie(0, '/')
         .setNotify(true, true);
-
-    $routeProvider.
-        when('/', {
-            templateUrl: 'main.html',
-            controller: 'mainController'
-        }).
-        otherwise({
-            redirectTo: '/'
-        })
-    ;
 }]);
 
 app.filter('reverse', function() {

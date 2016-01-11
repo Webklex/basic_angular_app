@@ -33,3 +33,46 @@ An angularJS web app build using angularJS, Gulp &amp; Bower
   * [requirejs](https://github.com/jrburke/requirejs): ~2.1.22
   * [angular-sanitize](https://github.com/angular/bower-angular-sanitize): ~1.4.8
   * [bootstrap](https://github.com/twbs/bootstrap): ~3.3.6
+
+##Routing example
+All your routes are defined in ./src/app/router.js
+An example route is already defined.
+```
+when('/', {
+    templateUrl: 'main.html',
+    controller: 'mainController'
+}).
+```
+Where the first passed parameter is the URL (in this case "/"), the following object passes the arguments. 
+```
+otherwise({
+    redirectTo: '/'
+}).
+```
+This the the fallback URL. So any url missmatch will be redirected to "/".
+Further information about angular-routing ca be fount [here](https://github.com/angular/bower-angular-route).
+
+##View management
+Any used view will be stored in ./src/app/views and are automaticaly compiled to a ng-template.
+If you need an example take a look at the ./src/app/router.js and the ./src/app/views/ folder content.
+
+##Adding new bower compontents
+Adding a new bower components is fairly easy. Just install your component and run either **gulp serve** or **gulp**. The new compontent will be build and added to your application automaticaly.
+
+##Adding custom styles and java scripts
+Please add all your custom css and js files which are not a angular controler or what so ever in the ./src/template/* folder. The files will be compiled into your application by gulp. So all you need to do is either run **gulp** or have **gulp serve** running.
+
+#The magic ./scr/index.html
+This is your main file. Inside this file you can define your template. Such as navigation, footer and so on.
+Please note that the following components should be present at all time:
+```
+<!-- inject:css -->
+<!-- endinject -->
+
+<!-- inject:html -->
+<!-- endinject -->
+
+<!-- inject:js -->
+<!-- endinject -->
+```
+So what does it do? Inject:css injects all required CSS files and inject:html includes all the html views converted into ng-templates. inject:js is required fo all javascript components. Besides these tags you can edit verything else inside this html file.

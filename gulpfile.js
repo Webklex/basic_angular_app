@@ -35,6 +35,8 @@ var dir = {
     tmp:    '.tmp',
     styles: [],
     scripts: [],
+    images: [],
+    folders: [],
     html: []
 };
 
@@ -43,21 +45,12 @@ for(var sI = dir.styles.length; sI < config.depth; sI++ ){
     path = "";
     for(var ssI = sI; ssI <= config.depth -1; ssI++ ){path += "/**";}
     dir.styles.push(dir.src+path+'/*.css');
-}
-
-//Build JS paths
-for(var scI = dir.scripts.length; scI < config.depth; scI++ ){
-    path = "";
-    for(var sscI = scI; sscI <= config.depth -1; sscI++ ){path += "/**";}
     dir.scripts.push(dir.src+path+'/*.js');
+    dir.html.push(dir.src.path+'/*.html');
+    dir.folders.push(dir.src+path+'/*');
+    dir.images.push(dir.src+path+'/*.{jpg,jpeg,png,gif}');
 }
 
-//Build HTML paths
-for(var hI = dir.html.length; hI < config.depth; hI++ ){
-    path = "";
-    for(var shI = hI; shI <= config.depth -1; shI++ ){path += "/**";}
-    dir.html.push(dir.src+'/app/'+path+'/*.html');
-}
 
 /*Gulp task Serve*/
 gulp.task('serve', ['watch'], function(){
@@ -79,6 +72,7 @@ gulp.task('watch', ['default'], function () {
     gulp.watch(dir.scripts, ['scripts']);
     gulp.watch(dir.styles, ['styles']);
     gulp.watch(dir.bower, ['bower']);
+    gulp.watch(dir.images, ['images']);
     gulp.watch([dir.src+'/**/*.html', dir.src+'/*.html'], ['inject']);
 });
 
@@ -88,7 +82,7 @@ gulp.task('build', ['default'], function(){
 });
 
 /*Gulp task Default*/
-gulp.task('default', ['styles', 'scripts', 'bower', 'inject'], function(){});
+gulp.task('default', ['styles', 'scripts', 'images', 'bower', 'inject'], function(){});
 
 /*Gulp task Bower*/
 gulp.task('bower', function() {
@@ -153,6 +147,16 @@ gulp.task('styles', function () {
         .pipe(minifyCss())
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(dir.dist+'/css'))
+});
+
+
+/*Gulp task Images*/
+gulp.task('images', function () {
+    gulp.src(dir.images)
+        .pipe(rename({
+            dirname: ""
+        }))
+        .pipe(gulp.dest(dir.dist+'/images'))
 });
 
 /*Gulp task Inject*/

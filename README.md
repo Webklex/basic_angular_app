@@ -3,6 +3,7 @@ An angularJS web app build using angularJS, Gulp &amp; Bower
 
 ## Demo / compiled app
 Live Demo: http://webklex.github.io/basic_angular_app/dist/
+
 Sourcecode Demo: https://github.com/Webklex/basic_angular_app/tree/gh-pages/dist
 
 ## Requirements

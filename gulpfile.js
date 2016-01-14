@@ -35,11 +35,11 @@ var dir = {
     bower:  'bower_components',
     dist:   'dist',
     tmp:    '.tmp',
-    styles: [],
-    scripts: [],
-    images: [],
-    folders: [],
-    html: []
+    styles:     [],
+    scripts:    [],
+    images:     [],
+    folders:    [],
+    html:   []
 };
 
 //Build CSS paths
@@ -72,9 +72,9 @@ gulp.task('serve', ['watch'], function(){
 /*Gulp task Watch*/
 gulp.task('watch', ['default'], function () {
     gulp.watch(dir.scripts, ['scripts']);
-    gulp.watch(dir.styles, ['styles']);
-    gulp.watch(dir.bower, ['bower']);
-    gulp.watch(dir.images, ['images']);
+    gulp.watch(dir.styles,  ['styles']);
+    gulp.watch(dir.bower,   ['bower']);
+    gulp.watch(dir.images,  ['images']);
     gulp.watch([dir.src+'/**/*.html', dir.src+'/*.html'], ['inject']);
 });
 

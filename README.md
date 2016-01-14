@@ -75,4 +75,4 @@ Please note that the following components should be present at all time:
 <!-- inject:js -->
 <!-- endinject -->
 ```
-So what does it do? Inject:css injects all required CSS files and inject:html includes all the html views converted into ng-templates. inject:js is required fo all javascript components. Besides these tags you can edit verything else inside this html file.
+So what does it do? Inject:css injects all required CSS files and inject:html includes all the html views converted into ng-templates. inject:js is required fo all javascript components. Besides these tags you can edit everything else inside the index.html file.

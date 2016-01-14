@@ -16,6 +16,7 @@ var inject      = require('gulp-inject');
 var filesort    = require('gulp-angular-filesort');
 var serve       = require('gulp-webserver');
 var gutil       = require('gulp-util');
+var series      = require('stream-series');
 
 var path = "";
 
@@ -108,7 +109,7 @@ gulp.task('bower', function() {
         .pipe(cssFilter)
         .pipe(concat('vendors.css'))
         .pipe(gulp.dest(dir.tmp+'/css'))
-        .pipe(minifyCss({keepBreaks:true}))
+        .pipe(minifyCss())
         .pipe(rename({
             suffix: ".min"
         }))
@@ -161,25 +162,26 @@ gulp.task('images', function () {
 
 /*Gulp task Inject*/
 gulp.task('inject', function(){
+    var vendorCssStream = gulp.src([dir.dist+'/css/vendors*.css'], {read: false});
+    var appCssStream    = gulp.src([dir.dist+'/css/**/*.css', '!'+dir.dist+'/css/vendors*.css'], {read: false});
+
     gulp.src('./src/index.html')
         .pipe(inject(
             gulp.src( [dir.dist+'/js/**/*.js']).pipe(filesort()), {
                 addRootSlash : true,
                 //ignorePath : '',
                 transform : function ( filePath, file, i, length ) {
-                    return '<script type="text/javascript" src="' + filePath.replace(dir.dist+'/', '')  + '"></script>';
+                    return '<script type="text/javascript" src="' + filePath.replace(dir.dist+'/', '').substring(1)  + '"></script>';
                 }
             }
         ))
-        .pipe(inject(
-            gulp.src( [dir.dist+'/css/**/*.css'], {read: false}), {
-                addRootSlash : true,
-                //ignorePath : '',
-                transform : function ( filePath, file, i, length ) {
-                    return '<link rel="stylesheet" href="' + filePath.replace(dir.dist+'/', '') + '"/>';
-                }
+        .pipe(inject(series(vendorCssStream, appCssStream), {
+            addRootSlash : true,
+            //ignorePath : '',
+            transform : function ( filePath, file, i, length ) {
+                return '<link rel="stylesheet" href="' + filePath.replace(dir.dist+'/', '').substring(1) + '"/>';
             }
-        ))
+        }))
         .pipe(inject(
             gulp.src(dir.html),
             {

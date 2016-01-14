@@ -17,39 +17,64 @@ var filesort    = require('gulp-angular-filesort');
 var serve       = require('gulp-webserver');
 var gutil       = require('gulp-util');
 
+var path = "";
+
+var config = {
+    depth: 5,
+    debug: {
+        autoOpen:   false,
+        livereload: true,
+        directoryListing: true
+    }
+};
+
 var dir = {
     src:    'src',
     bower:  'bower_components',
     dist:   'dist',
-    tmp:    '.tmp'
+    tmp:    '.tmp',
+    styles: [],
+    scripts: [],
+    html: []
 };
 
-dir.styles  = [
-    dir.src+'/**/*.css',
-    dir.src+'/**/**/*.css',
-    dir.src+'/**/**/**/*.css',
-    dir.src+'/**/**/**/**/*.css',
-    dir.src+'/**/**/**/**/**/*.css'
-];
-dir.scripts = [
-    dir.src+'/**/*.js',
-    dir.src+'/**/**/*.js',
-    dir.src+'/**/**/**/*.js',
-    dir.src+'/**/**/**/**/*.js',
-    dir.src+'/**/**/**/**/**/*.js'
-];
+//Build CSS paths
+for(var sI = dir.styles.length; sI < config.depth; sI++ ){
+    path = "";
+    for(var ssI = sI; ssI <= config.depth -1; ssI++ ){path += "/**";}
+    dir.styles.push(dir.src+path+'/*.css');
+}
 
+//Build JS paths
+for(var scI = dir.scripts.length; scI < config.depth; scI++ ){
+    path = "";
+    for(var sscI = scI; sscI <= config.depth -1; sscI++ ){path += "/**";}
+    dir.scripts.push(dir.src+path+'/*.js');
+}
+
+//Build HTML paths
+for(var hI = dir.html.length; hI < config.depth; hI++ ){
+    path = "";
+    for(var shI = hI; shI <= config.depth -1; shI++ ){path += "/**";}
+    dir.html.push(dir.src+'/app/'+path+'/*.html');
+}
+
+/*Gulp task Serve*/
 gulp.task('serve', ['watch'], function(){
     gulp.src(dir.dist)
         .pipe(serve({
-            livereload: true,
-            directoryListing: true,
-            open: false,
+            livereload: config.debug.livereload,
+            directoryListing:{
+                enable: config.debug.directoryListing,
+                path:   dir.dist
+            },
+            open: config.debug.autoOpen,
             //path: dir.dist
             fallback: 'index.html'
         }));
 });
 
+/*Gulp task Watch*/
 gulp.task('watch', ['default'], function () {
     gulp.watch(dir.scripts, ['scripts']);
     gulp.watch(dir.styles, ['styles']);
@@ -57,14 +82,15 @@ gulp.task('watch', ['default'], function () {
     gulp.watch([dir.src+'/**/*.html', dir.src+'/*.html'], ['inject']);
 });
 
+/*Gulp task Build*/
 gulp.task('build', ['default'], function(){
     gutil.log(gutil.colors.green('Build has been completed'));
 });
 
-gulp.task('default', ['styles', 'scripts', 'bower', 'inject'], function(){
+/*Gulp task Default*/
+gulp.task('default', ['styles', 'scripts', 'bower', 'inject'], function(){});
 
-});
-
+/*Gulp task Bower*/
 gulp.task('bower', function() {
     var jsFilter    = gulpFilter('*.js', {restore: true});
     var cssFilter   = gulpFilter('*.css', {restore: true});
@@ -108,6 +134,7 @@ gulp.task('bower', function() {
         .pipe(imageFilter.restore)
 });
 
+/*Gulp task Scripts*/
 gulp.task('scripts', function () {
     gulp.src(dir.scripts)
         .pipe(sourcemaps.init())
@@ -118,6 +145,7 @@ gulp.task('scripts', function () {
         .pipe(gulp.dest(dir.dist+'/js'))
 });
 
+/*Gulp task Styles*/
 gulp.task('styles', function () {
     gulp.src(dir.styles)
         .pipe(sourcemaps.init())
@@ -127,6 +155,7 @@ gulp.task('styles', function () {
         .pipe(gulp.dest(dir.dist+'/css'))
 });
 
+/*Gulp task Inject*/
 gulp.task('inject', function(){
     gulp.src('./src/index.html')
         .pipe(inject(
@@ -148,11 +177,8 @@ gulp.task('inject', function(){
             }
         ))
         .pipe(inject(
-            gulp.src([
-                dir.src+'/app/views/**/**/*.html',
-                dir.src+'/app/views/**/*.html',
-                dir.src+'/app/views/*.html'
-            ]), {
+            gulp.src(dir.html),
+            {
                 addRootSlash : true,
                 ignorePath : dir.src+'/app/views/',
                 transform : function ( filePath, file, i, length ) {

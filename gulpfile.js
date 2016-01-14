@@ -149,9 +149,13 @@ gulp.task('scripts', function () {
 /*Gulp task Styles*/
 gulp.task('styles', function () {
     gulp.src(dir.styles)
-        .pipe(sourcemaps.init())
         .pipe(concat('style.css'))
+        .pipe(gulp.dest(dir.tmp+'/css'))
+        .pipe(sourcemaps.init())
         .pipe(minifyCss())
+        .pipe(rename({
+            suffix: ".min"
+        }))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(dir.dist+'/css'))
 });

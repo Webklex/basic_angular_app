@@ -46,7 +46,7 @@ for(var sI = dir.styles.length; sI < config.depth; sI++ ){
     for(var ssI = sI; ssI <= config.depth -1; ssI++ ){path += "/**";}
     dir.styles.push(dir.src+path+'/*.css');
     dir.scripts.push(dir.src+path+'/*.js');
-    dir.html.push(dir.src.path+'/*.html');
+    dir.html.push(dir.src+path+'/*.html');
     dir.folders.push(dir.src+path+'/*');
     dir.images.push(dir.src+path+'/*.{jpg,jpeg,png,gif}');
 }

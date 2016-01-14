@@ -1,7 +1,14 @@
-/**
- * Created by webklex on 09.01.16.
+/*
+ * File: app.js
+ * Category: -
+ * Author: MSG - Webklex
+ * URL: http://webklex.com
+ * Created: 09.01.2016
+ * Updated: -
+ *
+ * Description:
+ *  -
  */
-
 var config = {
     app: {
         name: 'My new App'

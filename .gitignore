@@ -2,4 +2,7 @@
 .tmp/*
 bower_components
 node_modules
-dist/*
+src/*
+bower.json
+gulpfile.js
+package.json

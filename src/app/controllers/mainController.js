@@ -13,6 +13,6 @@ app.controller('mainController', ['$scope', mainController]);
 
 function mainController($scope) {
     var vm = $scope;
-    vm.title = 'Sitetitle';
-    vm.var = 'Some plain content';
+    vm.title = 'Site title';
+    vm.var = 'Basic Angular App';
 }

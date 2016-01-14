@@ -1,0 +1,25 @@
+
+/*Basic bootstrap extension*/
+
+.row.row-space.row-space-xs{
+    padding: 5px;
+}
+.row.row-space.row-space-sm{
+    padding: 10px;
+}
+.row.row-space{
+    padding: 20px;
+}
+.row.row-space.row-space-md{
+    padding: 40px;
+}
+.row.row-space.row-space-lg{
+    padding: 80px;
+}
+.row.row-space.row-space-xl{
+    padding: 160px;
+}
+
+*, body, html {
+    font-family: 'Open Sans Condensed', sans-serif;
+}

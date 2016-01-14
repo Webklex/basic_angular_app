@@ -17,11 +17,12 @@ var filesort    = require('gulp-angular-filesort');
 var serve       = require('gulp-webserver');
 var gutil       = require('gulp-util');
 var series      = require('stream-series');
+var htmlmin     = require('gulp-htmlmin');
 
 var path = "";
 
 var config = {
-    depth: 5,
+    depth: 6,
     debug: {
         autoOpen:   false,
         livereload: true,
@@ -132,9 +133,14 @@ gulp.task('bower', function() {
 /*Gulp task Scripts*/
 gulp.task('scripts', function () {
     gulp.src(dir.scripts)
-        .pipe(sourcemaps.init())
         .pipe(concat('app.js'))
-        //.pipe(ngAnnotate())
+        .pipe(gulp.dest(dir.tmp+'/js'))
+        .pipe(sourcemaps.init())
+        .pipe(ngAnnotate())
+        .pipe(uglify())
+        .pipe(rename({
+            suffix: ".min"
+        }))
         //.pipe(uglify())
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(dir.dist+'/js'))
@@ -165,6 +171,9 @@ gulp.task('inject', function(){
     var vendorCssStream = gulp.src([dir.dist+'/css/vendors*.css'], {read: false});
     var appCssStream    = gulp.src([dir.dist+'/css/**/*.css', '!'+dir.dist+'/css/vendors*.css'], {read: false});
 
+    var htmlDir = dir.html;
+    htmlDir.push('!'+dir.src+'/index.html');
+
     gulp.src('./src/index.html')
         .pipe(inject(
             gulp.src( [dir.dist+'/js/**/*.js']).pipe(filesort()), {
@@ -183,7 +192,8 @@ gulp.task('inject', function(){
             }
         }))
         .pipe(inject(
-            gulp.src(dir.html),
+            gulp.src(htmlDir)
+                .pipe(htmlmin({collapseWhitespace: true})),
             {
                 addRootSlash : true,
                 ignorePath : dir.src+'/app/views/',

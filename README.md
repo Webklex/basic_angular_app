@@ -1,4 +1,4 @@
-Demo: http://webklex.github.io/basic_angular_app/dist/#/
+Demo: http://webklex.github.io/basic_angular_app/dist/
 # Basic angularJS app
 An angularJS web app build using angularJS, Gulp &amp; Bower
 

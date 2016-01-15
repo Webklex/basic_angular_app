@@ -11,16 +11,14 @@
  *  A ton of awesome fonts are waiting for you at: https://www.google.com/fonts
  */
 
+/*
 WebFontConfig = {
-    google: {
-        families: [
-            'Open+Sans+Condensed:300,300italic,700:latin'
-        ]
-    }
+    google: { families: [ 'Open+Sans+Condensed:300,300italic,700:latin' ] }
 };
 
 (function() {
     var wf = document.createElement('script');
+
     wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
         '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
     wf.type = 'text/javascript';
@@ -28,3 +26,4 @@ WebFontConfig = {
     var s = document.getElementsByTagName('script')[0];
     s.parentNode.insertBefore(wf, s);
 })();
+*/

@@ -9,6 +9,8 @@
  *  Basic bootstrap extension
  */
 
+@import url(https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700);
+
 .row.row-space.row-space-xs{
     padding: 5px;
 }

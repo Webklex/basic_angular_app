@@ -18,6 +18,8 @@ var serve       = require('gulp-webserver');
 var gutil       = require('gulp-util');
 var series      = require('stream-series');
 var htmlmin     = require('gulp-htmlmin');
+var clean       = require('gulp-clean');
+var del         = require('del');
 
 var path = "";
 
@@ -84,7 +86,7 @@ gulp.task('build', ['default'], function(){
 });
 
 /*Gulp task Default*/
-gulp.task('default', ['styles', 'scripts', 'images', 'bower', 'inject'], function(){});
+gulp.task('default', ['clean', 'images', 'bower', 'styles', 'scripts', 'inject'], function(){});
 
 /*Gulp task Bower*/
 gulp.task('bower', function() {
@@ -110,7 +112,7 @@ gulp.task('bower', function() {
         .pipe(cssFilter)
         .pipe(concat('vendors.css'))
         .pipe(gulp.dest(dir.tmp+'/css'))
-        .pipe(minifyCss())
+        .pipe(minifyCss({processImport: false}))
         .pipe(rename({
             suffix: ".min"
         }))
@@ -151,7 +153,7 @@ gulp.task('styles', function () {
         .pipe(concat('style.css'))
         .pipe(gulp.dest(dir.tmp+'/css'))
         .pipe(sourcemaps.init())
-        .pipe(minifyCss())
+        .pipe(minifyCss({processImport: false}))
         .pipe(rename({
             suffix: ".min"
         }))
@@ -212,4 +214,9 @@ gulp.task('inject', function(){
             }
         ))
         .pipe(gulp.dest(dir.dist));
+});
+
+gulp.task('clean', function(){
+    del(dir.tmp);
+    del(dir.dist);
 });

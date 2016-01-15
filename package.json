@@ -2,8 +2,10 @@
   "private": true,
   "devDependencies": {
     "bower": "^1.7.2",
+    "del": "^2.2.0",
     "gulp": "^3.8.8",
     "gulp-angular-filesort": "^1.1.1",
+    "gulp-clean": "^0.3.1",
     "gulp-concat": "^2.6.0",
     "gulp-filter": "^3.0.1",
     "gulp-flatten": "^0.2.0",

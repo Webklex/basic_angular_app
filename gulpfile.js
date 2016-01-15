@@ -141,7 +141,6 @@ gulp.task('scripts', function () {
         .pipe(rename({
             suffix: ".min"
         }))
-        //.pipe(uglify())
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(dir.dist+'/js'))
 });
@@ -200,9 +199,14 @@ gulp.task('inject', function(){
                 .pipe(htmlmin({collapseWhitespace: true})),
             {
                 addRootSlash : true,
-                ignorePath : dir.src+'/app/views/',
+                ignorePath : [
+                    dir.src+'/app/views/',
+                    dir.src+'/app/'
+                ],
                 transform : function ( filePath, file, i, length ) {
-                    return '<script type = "text/ng-template" id="'+filePath.substring(1)+'">' +
+                    return '<script type = "text/ng-template" id="'+
+                        filePath.substring(1)
+                        +'">' +
                         file.contents.toString('utf8')+ '</script>';
                 }
             }
